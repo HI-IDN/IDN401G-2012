@@ -1,0 +1,21 @@
+# ======= Data skra fyrir bjorliki ===========
+data;
+
+set afengi := pilsner vodka brandy malt;
+param kostn := 
+  pilsner   100
+  vodka    2000
+  brandy   3000
+  malt      120;
+param vol := 
+  pilsner   0.0225
+  vodka     0.40
+  brandy    0.40
+  malt      0.015;
+param minhlutfall :=
+  brandy   0.02
+  malt     0.03;
+param maxhlutfall :=
+  vodka    0.07
+  malt     0.05;
+end;

@@ -1,0 +1,21 @@
+data;
+
+set product := window door;
+
+set factory := 1 2 3;
+
+param profit :=
+   window  3
+   door	   5;
+
+param resource := 
+   1	4
+   2	24
+   3	18;
+
+param A:        window	door :=
+	1       1       0
+	2       0       2
+	3       3       2;
+
+end;

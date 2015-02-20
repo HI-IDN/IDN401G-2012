@@ -1,0 +1,12 @@
+data;
+
+set women:= Anastasiya Borislava Dunya Elena;
+set men := Fannar Gunnar Hilmar Ingi;
+
+param happiness: Fannar  Gunnar  Hilmar  Ingi :=
+     Anastasiya  7       5       8       2
+     Borislava   7       8       9       4
+     Dunya       3       5       7       9
+     Elena       5       5       6       7;
+
+end;

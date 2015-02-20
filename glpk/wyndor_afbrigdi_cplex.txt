@@ -1,0 +1,11 @@
+\* Problem: wyndor *\
+
+Maximize
+ Z: + 3 x(window) + 5 x(door)
+
+Subject To
+ hours(1): + x(window) <= 4
+ hours(2): + 2 x(door) <= 24
+ hours(3): + 3 x(window) + 2 x(door) <= 18
+
+End
