@@ -1,0 +1,306 @@
+Til að meta hversu \emph{góð} Simplex-aðferðin er í raun og veru má dæma hana út frá hversu \emph{lengi} er Simplex-aðferðin að finna bestu lausn. Nokkar leiðir eru til að meta tímann sem það tekur að leita að bestu lausn, nefnilega
+\begin{itemize}
+ \item Tími (sek) -- hverfull skali þar sem ekki allar tölvur eru eins, og tölvur verða sífellt hraðvirkari.
+ \item Fjöldi reikniaðgerða (samlagning, frádráttur, margföldun og deiling).
+ \item Fjöldi ítrana -- í Simplex-aðferðinni er fjöldi reikniaðgerða í hverri ítrun ca. fasti (háður $m$ og $n$).
+\end{itemize}
+Greining á reikniritum miðast annaðhvort við \ath{versta tilvik} (e. worst case analysis) eða \ath{meðaltilvik} (e. average case).
+Greining sem miðað við versta tilfelli skoðar öll verkefni af tiltekinni stærð ($m$ og $n$) og finnur hversu langan tíma erfiðasta tilvikið í hópnum tekur.
+
+Þar sem Simplex-aðferðin fer aldrei til baka í eldri lausnir (nema í undantekninga tilvikum) þá er efra mark á fjölda gjaldgengra grunnlausna $$ \left(\begin{array}{c}n+m\\n\end{array}\right)=\frac{(m+n)!}{m!\;n!}$$
+Fyrir $m=n$ gildir að 
+$$ \frac{1}{2n}2^{2n}\leq \left(\begin{array}{c}2n\\n\end{array}\right) \leq 2^{2n} $$
+þ.e. fjöldi hornpunkta vex \emph{mjög hratt} með $n$, t.d. $2^{50}\approx 1.1\cdot 10^{15}$.
+
+Sýna má að verkefnið eftir Klee \& Minty\label{klee-minty} frá 1972\footnote{V. Klee and G.J. Minty. \emph{How Good is the Simplex Algorithm?} In O. Shisha, editor, Inequalities, III, pages 159–175. Academic Press, New York, NY, 1972}
+$$ \max_{\vec{x}} z=\sum_{j=1}^n 10^{n-j} x_j $$
+m.t.t. sk.
+\begin{eqnarray*}
+ 2\sum_{j=1}^{i-1} 10^{i-j}x_j+x_i \leq 100^{i-1} &\quad& i\in\{1,...,n\} \\
+ x_j\geq0 &\quad& j\in\{1,...,n\}
+\end{eqnarray*}
+tekur $2^n-1$ Simplex-ítranir. Reiknitími Simplex-aðferðarinnar (í versta tilfelli) vex því með veldisvísisfalli í $n$.
+
+Á hinn boginn hafa menn séð að fyrir flest raunhæf verkefni er reiknitíminn miklu styttri. Eftirfarandi mat á fjölda ítrana fékkst með því að leysa 35 LP verkefni úr \href{http://www.netlib.org/}{\textsc{netlib}} safninu
+$$ T\approx 0.5(n+m)^{1.05} $$
+sem er fjarri versta tilvikinu.
+
+\section{Simplex-aðferðin á fylkjaformi}
+Línulegt bestunarverkefni á stöðluðu formi er 
+$$\max_{\vec{x}} z=\vec{c}^T\vec{x}$$
+m.t.t. sk.
+\begin{eqnarray*}
+ \mat{A}\vec{x}&\leq&\vec{b} \\ \vec{x}&\geq& \vec{0}
+\end{eqnarray*}
+þar sem $\mat{A}\in\mathbb{R}^{m\times n},\; \vec{c}\in\mathbb{R}^{n},\;\vec{x}\in\mathbb{R}^{n}$, og $\vec{b}\in\mathbb{R}^m$.
+
+Komum verkefninu yfir á viðskeytt formi. Táknum slakabreytur með 
+$$ \vec{x}_s = \begin{bmatrix}x_{n+1}\\ \vdots \\ x_{n+m} \end{bmatrix}$$
+Skorðurnar verða þá
+\begin{eqnarray*}
+ \begin{bmatrix}\mat{A} & \mat{I}_m \end{bmatrix}\;\begin{bmatrix}\vec{x}\\\vec{x}_s \end{bmatrix}&=&\vec{b} \\
+ \vec{x}_v=\begin{bmatrix}\vec{x}\\ \vec{x}_{s} \end{bmatrix}&\geq&\vec{0}
+\end{eqnarray*}
+þar sem $\mat{I}_m$ er $m\times m$ einingarfylki.
+
+Fjöldi breyta utan grunns er $n$, setjum tilsvarandi breytur jafnar núlli. Höfum þá $m$ jöfnum með $m$ óþekktum breytum.
+
+Táknum grunnbreyturnar með $\vec{x}_B$ og tilsvarandi dálkar úr $\begin{bmatrix}\mat{A} & \mat{I}_m\end{bmatrix}$ er fylkið $\mat{B}$ (þ.a. í upphafi er $\mat{B}=\mat{I}_m$). 
+%\begin{aths} Röð dálka í $\mat{B}$ svara til röð staka í $\vec{x}_B$.\end{aths}
+Höfum því $$ \mat{B}\vec{x}_B=\vec{b} $$
+Lausnin er þá 
+\begin{equation}
+\vec{x}_B=\mat{B}^{-1}\vec{b} \label{eq:8} 
+\end{equation}
+\begin{aths}\hspace{.1cm}
+\begin{itemize}
+\item Getum séð hvernig lausnin breytist þegar $\vec{b}$ breytist lítið (sjá grein \ref{sec:naemnigreining} um næmnigreiningu)
+\item Simplex-aðferðin velur breytur í og úr grunni þannig að tryggt er að $\mat{B}$ sé andhverfanlegt.
+\item \ath{Endurskoðaða Simplex-aðferðin} (e. revised Simplex-method) í grein \ref{sec:revisedSimplex} reiknar andhverfuna á hagkvæman hátt.
+\end{itemize} 
+\end{aths}
+Látum nú vigurinn $\vec{c}_B$ innihalda þá stuðla markfallsins sem svarar til breyta í $\vec{x}_B$ (önnur stök eru núll).
+\begin{equation}
+z=\vec{c}_B^T\vec{x}_B \stackrel{\eqref{eq:8}}{=}\vec{x}_B\mat{B}^{-1}\vec{b} \label{eq:9}
+\end{equation}
+Upphafsjöfnur Simplex-aðferðarinnar eru
+\begin{equation}
+ \begin{bmatrix}  1 & -\vec{c} & \vec{0} \\ \vec{0} & \mat{A} & \mat{I}_m \end{bmatrix} \; \begin{bmatrix} z \\ \vec{x} \\ \vec{x}_s \end{bmatrix} = \begin{bmatrix} 0 \\ \vec{b} \end{bmatrix} \label{eq:10}
+\end{equation}
+Í sérhverri ítrun gildir um \emph{hægri hlið} jöfnuhneppisins í \eqref{eq:10}.
+\begin{equation}
+ \begin{bmatrix}  z \\ \vec{x}_B \end{bmatrix}=\underbrace{\begin{bmatrix} 1 & \vec{c}_b\mat{B} \\ \vec{0} & \mat{B}^{-1}\end{bmatrix}}_{(\star)}\;\begin{bmatrix}0\\\vec{b}\end{bmatrix}=\begin{bmatrix} \vec{c}_B^T\mat{B}^{-1}\vec{b} \\ \mat{B}^{-1}\vec{b}\end{bmatrix}\quad\color{blue}{\begin{matrix} \leftarrow\eqref{eq:8} \\ \leftarrow\eqref{eq:9}\end{matrix}}
+\end{equation}
+Þar sem sömu aðgerðir $(\star)$ eru framkvæmdar á \emph{vinstri hlið} \eqref{eq:10} fæst
+\begin{equation}
+ \begin{bmatrix}1 & \vec{c}_B\mat{B}^{-1} \\ \vec{0} & \mat{B}^{-1} \end{bmatrix}\;\begin{bmatrix} 1 & -\vec{c} & \vec{0}  \\ \vec{0} & \mat{A} & \mat{I}_m \end{bmatrix} = \begin{bmatrix} 1 & -\vec{c}+\vec{c}_B\mat{B}^{-1}\mat{A}  & \vec{c}_B\mat{B}^{-1} \\ \vec{0} & \mat{B}^{-1}\mat{A} & \mat{B}^{-1}\end{bmatrix}
+\end{equation}
+Í sérhverri ítrun gildir því 
+\begin{equation}
+ \underbrace{\begin{bmatrix} 1 & -\vec{c}+\vec{c}_B\mat{B}^{-1}\mat{A}  & \vec{c}_B\mat{B}^{-1} \\ \vec{0} & \mat{B}^{-1}\mat{A} & \mat{B}^{-1}\end{bmatrix} }_{\textrm{vinstri hlið}}
+ =\underbrace{\begin{bmatrix} \vec{c}_B^T\mat{B}^{-1}\vec{b} \\ \mat{B}^{-1}\vec{b}\end{bmatrix}}_{\textrm{hægri hlið}}
+\end{equation}
+
+\subsection{Fundamental insight}
+Ef upphafstaflan er þekkt, þ.e.a.s.  $\mat{A},\;\vec{b}$ og $\vec{c}$, og ef $\mat{B}^{-1}$ í lokatöflu er þekkt, þá er hægt að reikna öll gildin í Simplex-töflunni með formúlunum hér að undan. Þetta er kallað \ath{fundamental insight}.
+
+Jafnframt vitum við að í lokatöflu Simplex eru skuggaverðin $\vec{y}^*=\vec{c}_B\mat{B}^{-1}$.
+
+\subsection{Samantekt}
+\begin{center}
+{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+{\footnotesize
+\[ \begin{array}{|c|cc|c|cc|c|}\hline 
+  \textrm{Simplex}& \textrm{Grunnbr.} & \textrm{Jafna} & z & \textrm{Upphafl. br.} & \textrm{Slakabr.} & \textrm{Hægri hlið} \\ \hline\hline
+\textrm{Upphafstafla} & z & (0) & 1 & -\vec{c} & \vec{0} & 0 \\
+(\textrm{Ítrun }0) &  \vec{x}_B & (1,\ldots,m) & \vec{0} & \mat{A} & \mat{I}_m & \vec{b} \\ \hline\hline
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\ \hline \hline
+ & z & (0) & 1 & -\vec{c}+\vec{c}_B\mat{B}^{-1}\mat{A} & \vec{c}_B\mat{B}^{-1} & \vec{c}_B\mat{B}^{-1}\vec{b} \\
+(\textrm{Ítrun }k) &  \vec{x}_B & (1,\ldots,m) & \vec{0} & \mat{B}^{-1}\mat{A} & \mat{B}^{-1} & \mat{B}^{-1}\vec{b} \\ \hline\hline
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\ \hline \hline
+\textrm{Lokatafla} & z & (0) & 1 & -\vec{c}+\vec{y}^*\mat{A} & \vec{y}^* & \vec{y}^*\vec{b} \\
+ &  \vec{x}_B & (1,\ldots,m) & \vec{0} & \mat{B}^{-1}\mat{A} & \mat{B}^{-1} & \mat{B}^{-1}\vec{b} \\ \hline
+ \end{array}\]
+}}
+\end{center}
+Í lok hverrar ítrunar segja stuðlar slakabreyta til um hvernig viðkomandi jöfnuhneppi fékkst út frá upphaflegu jöfnunum.
+
+\begin{daemi}[Wyndor frh. af dæmi \ref{wyndor:simplex}]Upphafs- og lokatöflur eru:
+\begin{center}
+{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+{\footnotesize
+\[ \begin{array}{|c|cc|c|cc|ccc|c|}\hline 
+\textrm{Simplex}& \textrm{Grunnbr.} & \textrm{Jafna} & z & \multicolumn{2}{c|}{\textrm{Upphafl. br.}} & \multicolumn{3}{c|}{\textrm{Slakabr.}} & \textrm{Hægri hlið} \\ \hline\hline
+\textrm{Upphafstafla} & z & (0) & 1 & -3 & -5 & 0 & 0& 0 & 0 \\ \hline
+ &  x_3 & (1) & 0 & 1 & 0 & 1 & 0 & 0 & 4 \\
+ &  x_4 & (2) & 0 & 0 & 2 & 0 & 1 & 0 & 12 \\ 
+ &  x_5 & (3) & 0 & 3 & 2 & 0 & 0 & 1 & 18 \\ \hline\hline
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\ \hline \hline
+\textrm{Lokatafla} & z & (0) & 1 & 0 & 0 & {\color{blue}{0}} &{\color{blue}{\frac{3}{2}}} & {\color{blue}{1}} & 36\\ \hline
+ &  x_3 & (1) & 0 & 0 & 0 & \color{red}{1} & \color{red}{\frac{1}{3}} & \color{red}{-\frac{1}{3}} & 2 \\
+ &  x_2 & (2) & 0 & 0 & 1 & 0 & \frac{1}{2} &  0 & 6 \\ 
+ &  x_1 & (3) & 0 & 1 & 0 & 0 & -\frac{1}{3} & \frac{1}{3} & 2 \\ \hline
+ \end{array}\]
+}}
+\end{center} 
+\end{daemi}
+\begin{lausn}Sjáum að 
+\begin{eqnarray*}
+\textrm{Lína 1} &=& {\color{red}{1}} \cdot\textrm{(upphafl.lína 1)}+{\color{red}{\frac{1}{3}}}\cdot\textrm{(upphafl.lína 2)}{\color{red}{-\frac{1}{3}}}\cdot\textrm{(upphafl.lína 3)}\\
+&=& 1\cdot\begin{bmatrix}1 & 0 \end{bmatrix}+\frac{1}{3}\cdot\begin{bmatrix}0 & 2\end{bmatrix}-\frac{1}{3}\cdot\begin{bmatrix}3 & 2\end{bmatrix} = \begin{bmatrix} 0 & 0\end{bmatrix} \\
+\textrm{Lína 2} &=& 0\cdot\begin{bmatrix}1 & 0 \end{bmatrix}+\frac{1}{2}\cdot\begin{bmatrix}0 & 2\end{bmatrix}+0\cdot\begin{bmatrix}3 & 2\end{bmatrix} = \begin{bmatrix} 0 & 1\end{bmatrix} \\
+\textrm{Lína 3} &=& 0\cdot\begin{bmatrix}1 & 0 \end{bmatrix}-\frac{1}{3}\cdot\begin{bmatrix}0 & 2\end{bmatrix}+\frac{1}{3}\cdot\begin{bmatrix}3 & 2\end{bmatrix} = \begin{bmatrix} 1 & 0\end{bmatrix} 
+\end{eqnarray*}
+Að auki fáum við innsýn í skuggaverðin $\vec{y}^*$ þar sem 
+\begin{eqnarray*}
+z^*&=&\vec{y}^*\vec{b}= \sum_{i=1}^m y_i^*b_i={\color{blue}{0}}\cdot4+{\color{blue}{\frac{3}{2}}}\cdot12+{\color{blue}{1}}\cdot18=36 
+\end{eqnarray*}
+ \end{lausn}
+
+\subsection{Endurskoðuð Simplex-aðferð}\label{sec:revisedSimplex}
+\ath{Endurskoðuð Simplex-aðferð} (e. revised Simplex-method) gengur út á að geyma aðeins $\mat{B}^{-1}$ geymt og því er breytt í hverri ítrun með formúlu sem er á bls. 185 í kennslubók. Í upphafi er $\mat{B}^{-1}=\mat{I}_m$. 
+\newpage
+\lstset{language=matlab}
+\begin{daemi}[Wyndor í \textsc{matlab}]Höfum gefið
+$$\mat{A}=\begin{bmatrix}1 & 0\\0 & 2\\3 & 2\end{bmatrix}, \quad \vec{b}=\begin{bmatrix}4\\12\\18\end{bmatrix},\quad\vec{c}=\begin{bmatrix}3\\5\end{bmatrix},\quad \mat{B}^{-1}=I_3$$ 
+\end{daemi}
+\begin{lausn}
+
+%\begin{table}[h]
+%\begin{minipage}[b]{0.5\linewidth}\centering
+Til upprifjunar er hefðbundin Simplex-aðferð:
+\begin{lstlisting}
+>> A=[1 0;0 2;3 2];b=[4;12;18];c=[3 5]';[m,n]=size(A);I=eye(m);
+>> T = [1 -c' zeros(1,m) 0 ; zeros(m,1) A I b]
+
+T =
+
+     1    -3    -5     0     0     0     0
+     0     1     0     1     0     0     4
+     0     0     2     0     1     0    12
+     0     3     2     0     0     1    18
+
+>> % Itrun #1 --------------------------------------------------
+>> T=pivot(T,3,3) 
+
+T =
+
+    1   -3    0    0    2.5000    0   30
+    0    1    0    1         0    0    4
+    0    0    1    0    0.5000    0    6
+    0    3    0    0   -1.0000    1    6
+
+>> % Itrun #2 --------------------------------------------------
+>> T=pivot(T,4,2) 
+
+T =
+
+    1    0    0    0    1.5000    1.0000   36
+    0    0    0    1    0.3333   -0.3333    2
+    0    0    1    0    0.5000         0    6
+    0    1    0    0   -0.3333    0.3333    2
+\end{lstlisting}
+%\end{minipage}
+%\hspace{0.5cm}
+%\begin{minipage}[b]{0.5\linewidth}
+Nú skulum við leysa verkefnið með endurskoðaðri Simplex-aðferð, skv. reikni\-riti í kennslubók á bls. 185:
+\begin{lstlisting}
+>> A=[1 0;0 2;3 2];b=[4;12;18];c=[3 5]';[m,n]=size(A);
+>> c_B = [0 0 0]; % Framlegd vid grunnbreytur x3,x4,x5 er 0 
+>> invB = eye(3); % I upphafi er invB=I_m
+>> T = [1,           -c'+c_B*invB*A,  c_B*invB,  c_B*invB*b  
+       zeros(m,1),  invB*A,          invB,      invB*b    ]
+
+T =
+
+     1    -3    -5     0     0     0     0
+     0     1     0     1     0     0     4
+     0     0     2     0     1     0    12
+     0     3     2     0     0     1    18
+
+>> % Itrun #1 --------------------------------------------------
+>> k=2; % x2 entering basic
+>> r=2; % x4 leaving basic
+>> eta = -invB*A(:,k)/(invB(r,:)*A(:,k))
+
+eta =
+
+     0
+    -1
+    -1
+
+>> eta(r)=1/(invB(r,:)*A(:,k))
+
+eta =
+
+         0
+    0.5000
+   -1.0000
+
+>> E=I; E(:,r)=eta
+
+E =
+
+    1.0000         0         0
+         0    0.5000         0
+         0   -1.0000    1.0000
+
+>> invB=E*invB % Uppfaersla a invB
+
+invB =
+
+    1.0000         0         0
+         0    0.5000         0
+         0   -1.0000    1.0000
+
+>> c_B = [0 5 0], % Framlegd vid grunnbreytur x3,x2,x5 
+
+
+>> T = [1,           -c'+c_B*invB*A,  c_B*invB,  c_B*invB*b  
+       zeros(m,1),  invB*A,          invB,      invB*b    ]
+
+T =
+
+    1   -3    0    0    2.5    0   30
+    0    1    0    1    0      0    4
+    0    0    1    0    0.5    0    6
+    0    3    0    0   -1      1    6
+
+
+>> % Itrun #2 --------------------------------------------------
+>> k=1; % x_1 entering basic
+>> r=3; % x_5 leaving basic
+>> eta = -invB*A(:,k)/(invB(r,:)*A(:,k)); 
+>> eta(r)=1/(invB(r,:)*A(:,k)); E=I; E(:,r)=eta;
+>> invB=E*invB % Uppfaersla a invB
+
+invB =
+
+    1.0000    0.3333   -0.3333
+         0    0.5000         0
+         0   -0.3333    0.3333
+
+>> c_B = [0 5 3], % Framlegd vid grunnbreytur x3,x2,x1
+>> T = [1,           -c'+c_B*invB*A,  c_B*invB,  c_B*invB*b  
+       zeros(m,1),  invB*A,          invB,      invB*b    ]
+
+T =
+
+    1    0    0    0    1.5000    1.0000   36
+    0    0    0    1    0.3333   -0.3333    2
+    0    0    1    0    0.5000         0    6
+    0    1    0    0   -0.3333    0.3333    2
+
+>> % Skuggaverd, kostnadarminnkun, gildi markfalls og bestu lausn
+>> ystar = c_B*invB, reduced_cost = ystar*A-c', z = ystar*b, xstar=zeros(n+m,1); xstar([3 2 1])=invB*b
+
+ystar =
+
+         0    1.5000    1.0000
+
+reduced_cost =
+
+     0     0
+
+z =
+
+    36
+
+xstar =
+
+     2
+     6
+     2
+     0
+     0
+\end{lstlisting}
+%\end{minipage}
+%\end{table}
+
+ 
+\end{lausn}
+
+
+
+
+

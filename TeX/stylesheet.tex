@@ -1,0 +1,181 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tungumál
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[utf8]{inputenc}
+\usepackage[icelandic]{babel}
+\usepackage[T1]{fontenc} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lykilatriði
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{latexsym}
+\usepackage{comment} % fyrir debug!
+\usepackage{amsmath,amssymb}  % amsthm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stærðfræði flýtiskipanir
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\bs{\char '134}   
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\renewcommand{\vec}[1]{{\mbox{\boldmath$#1$}}}
+\renewcommand{\theta}[1]{{\vartheta}}
+\newcommand{\mat}[1]{{\mbox{\boldmath$#1$}}}
+\newcommand{\reals}{{\mathbb R}}
+\newcommand{\strng}[1]{{\mbox{\tt #1}}}
+\newcommand{\inner}[2]{\big<\vec{#1}\cdot\vec{#2}\big>}
+\def\argmax{\operatornamewithlimits{arg\,max}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Myndir og þess háttar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[]{graphicx,psfrag}
+\usepackage{pstricks}
+\usepackage{cancel}
+\usepackage{rotating}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hlekkir
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[colorlinks,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+%\usepackage[hyphenbreaks]{breakurl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Aðrar styttingar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\file}[1]{\texttt{#1}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Listings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\lstset{language=awk,
+  basicstyle=\footnotesize,
+  numbers=left,
+  numberstyle=\footnotesize,
+  numbersep=5pt,
+  backgroundcolor=\color{white},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  frame=single,
+  tabsize=2,
+  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=false,
+  title=\file{\lstname},
+  commentstyle={\bf \color{green}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Aðrir pakkar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumitem}
+\usepackage{multirow}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Glósu-flýtileiðir
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{framed}
+\usepackage[thref,framed,amsmath]{ntheorem}
+
+
+\theoremstyle{plain}% default
+\newtheorem{thm}{Setning}[chapter]
+
+\shadecolor{red}
+\def\theoremframecommand{%
+\psshadowbox[fillstyle=solid,fillcolor=lightgray,linecolor=black]}
+\newshadedtheorem{setn}[section]{Setning}
+\newshadedtheorem{hsetn}[section]{Hjálparsetning}
+\newshadedtheorem{fsetn}[section]{Fylgisetning}
+%\newtheorem{setn}{Setning}[chapter]
+%\newtheorem{hsetn}[setn]{Hjálparsetning}
+%\newtheorem{fsetn}[setn]{Fylgisetning}
+
+\theoremstyle{plain}
+%\theoremheaderfont{\normalfont\bfseries}\theorembodyfont{\slshape}
+%\theoremsymbol{\ensuremath{\diamondsuit}}
+%\theoremseparator{:}
+\theorembodyfont{\upshape}
+\theoremsymbol{\ensuremath{\ast}}
+\theoremseparator{}
+\newtheorem{daemi}{Dæmi}[chapter]
+
+
+%%% ATHS
+
+\theoremstyle{plain}
+\theoremsymbol{\ensuremath{\clubsuit}}
+\theoremseparator{.}
+\theoremprework{\bigskip\hrule}
+\theorempostwork{\hrule\bigskip}
+\theoremheaderfont{\bfseries\slshape} % Slanted caps
+\newtheorem*{aths}{Athugasemd}
+
+%%%% Sönnun
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\scshape} % Small caps
+\theorembodyfont{\upshape} % Upright 
+\theoremindent0cm
+\theoremseparator{}
+\theoremsymbol{\rule{1ex}{1ex}}
+\newtheorem{proof}{Sönnun}
+
+\theoremseparator{:}
+\newtheorem{lausnSYND}{Lausn}
+\theorembodyfont{\color{black}{\normalfont}}
+\newtheorem{lausn}{Lausn}
+
+
+
+\theoremclass{lausn}
+\shadecolor{red}
+\def\theoremframecommand{%
+\psshadowbox[fillstyle=solid,fillcolor=lightgray,linecolor=black]}
+\newshadedtheorem{flausn}[lausn]{Lausn}
+\newshadedtheorem{yourpart}[lausn]{Your part}
+
+
+%% Atriðisorðaskrá
+
+\newcommand{\ath}[1]{{\bf{#1}}\index{#1}}
+\newcommand{\athsub}[2]{{\bf{#1}}\index{#1!#2}}
+\newcommand{\athsup}[2]{{\bf{#1}}\index{#2!#1}}
+
+%% Kassar 
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\newcommand*{\titleGM}{\begingroup % Create the command for including the title 
+%page in the document
+    \hbox{ % Horizontal box
+        \hspace*{0.2\textwidth} % Whitespace to the left of the title page
+        \rule{1pt}{\textheight} % Vertical line
+        \hspace*{0.05\textwidth} % Whitespace between the vertical line and 
+        %title page text
+        \parbox[b]{0.75\textwidth}{ % Paragraph box which restricts text to 
+        %less than the width of the page
+            
+            {\noindent\Huge\bfseries \doctitleA \\[0.5\baselineskip] 
+            \doctitleB}\\[2\baselineskip] % Title
+            {\large \textit{\docsubtitle}}\\[4\baselineskip] % Tagline 
+            %or further description
+            {\Large \textsc{\docauthor}} % Author name
+            
+            \vspace{0.5\textheight} % Whitespace between the title block and 
+            %the publisher
+            {\noindent \publisher~\plogo}\\[\baselineskip] % Publisher and 
+            %logo
+        }}
+        \endgroup}

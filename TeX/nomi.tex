@@ -1,0 +1,91 @@
+\documentclass[a5paper]{book}
+
+\input{stylesheet}
+
+\newcommand{\doctitleA}{Simplex \&}
+\newcommand{\doctitleB}{sýningastúlkur}
+\newcommand{\doctitle}{\doctitleA~\doctitleB}
+\newcommand{\docsubtitle}{Inngangur að aðgerðagreiningu}
+\newcommand{\docauthor}{Helga Ingimundardóttir}
+\newcommand{\publisher}{GitHub}
+\newcommand*{\plogo}{\fbox{$\mathcal{GH}$}} % Generic publisher logo
+
+\usepackage[a5paper]{geometry}
+
+%\include{titlepg}
+
+%\title{Aðgerðagreining}
+%\author{Helga Ingimundardóttir}
+
+\usepackage{fancyhdr}
+
+\usepackage{makeidx}
+\makeindex
+
+\begin{document}
+
+\pagestyle{empty}
+%\titleSW 
+\titleGM
+\clearpage
+
+\frontmatter
+
+\include{preface}       % include preface
+
+\tableofcontents
+
+\mainmatter
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyhead[LE,RO]{\bfseries\thepage}
+\fancyhead[LO]{\bfseries\rightmark}
+\fancyhead[RE]{\bfseries\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{0.5pt}
+\setlength{\footskip}{0in}
+\renewcommand{\footruleskip}{0pt}
+\fancypagestyle{plain}{%
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
+}
+
+\chapter{Inngangur}
+\input{intro} 
+\chapter{Líkansmíð}
+\input{models}
+\chapter{Almennt línulegt bestunarverkefni} 
+\input{linear}
+\chapter{Stöðlun verkefna} 
+\input{standardform}
+\chapter{Simplex aðferðin}
+\input{simplex}
+\section{Fræðin á bak við Simplex}
+\input{simplextheory}
+\chapter{Nykurverkefni} 
+%\input{dual}
+\chapter{Netverkefni} 
+\section{Flutningsverkefni} 
+\input{transportation}
+\section{Almenn flutningsverkefni}
+\input{network} 
+\chapter{Heiltölubestun} \label{ch:ip}
+\input{int-prog}
+\chapter{Kvik bestun} 
+\input{dynamic}
+\chapter{Þumalputtareglur}
+\input{heuristic}
+
+
+\backmatter
+
+\include{bibliography}  % include bibliography
+
+% unix: makeindex showgirls.idx 
+\printindex
+
+\end{document}

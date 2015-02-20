@@ -1,0 +1,374 @@
+\lstset{language=matlab}
+%\section{Verkefnum komið á staðlaða formið}
+
+\section{Staðlað form}
+Skv. H\&L er staðlað form eftirfarandi:
+$$\max_{x_1,\ldots,x_n} \quad z = \sum_{j=1}^n c_j x_j  $$
+m.t.t. sk.
+\begin{eqnarray*}
+\sum_{j=1}^n a_{ij} x_j  \le  b_i &\quad& i\in\{1,\ldots,m\}~~~~ (b_i \ge 0)\\
+x_j  \ge  0, && j\in\{1,\ldots, n\}
+\end{eqnarray*}
+\section{Viðskeytt form}
+$$\max_{x_1,\ldots,x_n}  z = \sum_{j=1}^n c_j x_j $$
+m.t.t. sk.
+\begin{eqnarray*}
+\sum_{j=1}^n a_{ij} x_j  + x_{n+i} =  b_i &\quad& i\in\{1,\ldots,m\}~~~~ (b_i \ge 0)\\
+x_j  \ge  0, && j\in\{1, \ldots, n+m\}
+\end{eqnarray*}
+
+\section{Önnur form línulegra bestunarvandamála}\label{Simplex:onnurform}
+\subsection{Lágmörkunarverkefni}
+Markfallið er 
+$$\min_\vec{x}~~~z = \vec{c}^T\vec{x}$$
+Því má breyta í jafngilt hámörkunarverkefni 
+$$\max_\vec{x}~~~z = -\vec{c}^T\vec{x}$$
+
+\subsection{Jöfnuskorður} 
+$$\sum_{j=1}^n a_{ij} x_j =  b_i$$
+Verkefni af þessu tagi er leyst með notkun \ath{gervibreytu} $\bar{x}$ (e. artificial variable). Þessi breyta lítur alveg eins út og slakabreyta nema henni er aðeins bætt við skorður sem innihalda jafnaðarmerki. Einnig er stuðullinn $-M$, sem hér táknar mjög stóra neikvæða tölu, margfaldaður með gervibreytunni í markfalli $z$ sem á að hámarka (til að refsa markfallinu).
+Aðferðin kallast \ath{Aðferð stóra M} (e. big M method).
+
+\begin{daemi}[Wyndor-Glass Company með jöfnuskorðu]\label{daemi:wyndor-jofnusk}
+$$\max_{x_1,x_2}  z = 3x_1 + 5 x_2  $$
+m.t.t. sk.
+\begin{eqnarray*}
+x_1 & \le&   4 \\
+x_2 &\le&  12 \\
+3x_1 + 2 x_2 & \color{red}{=} &   18 \\
+x_1, x_2 &\ge& 0  
+\end{eqnarray*}
+\end{daemi}
+\begin{lausn}[Viðskeytt \emph{big $M$ method}]
+$$\max_{x_1,x_2,x_3,x_4,\bar{x}_5}  z = 3x_1 + 5 x_2 - M \bar{x}_5 $$
+m.t.t. sk.
+\begin{eqnarray*}
+x_1 + x_3 & = &  4 \\
+x_2 + x_4 & = & 12 \\
+3x_1 + 2 x_2 + \bar{x}_5  & = &  18 \\
+x_1, x_2, x_3, x_4, \bar{x}_5 &\ge &0   
+\end{eqnarray*}
+þar sem $M$ er stór tala. 
+
+\begin{aths}
+Ef hægt er að tryggja að í bestu lausn
+viðskeytta verkefnisins sé $\bar{x}_5$ utan grunns (þ.e.
+$\bar{x}_5=0$) þá gefur lausn þess okkur lausn á upphaflegu
+verkefninu. Það er hægt með því að breyta markfallinu í $ z =
+3x_1 + 5 x_2 - M \bar{x}_5$.  Hér er bætt við markfallið
+$-M\bar{x}_5$ því um ræðir hámörkunarvandamál. Hins vegar ef um
+lágmörkunarvandamál væri að ræða þá væri $+ M \bar{x}_5$ bætt
+við markfallið. Það er hægt að líta á þetta eins og sé verið að
+refsa markfallinu ef gervibreytan fær gildi $>0$.
+\end{aths}
+Byrjum á því að koma Simplex töflunni á eiginlegt form: þ.e.a.s. gervibreyta þarf að vera með $0$ í
+grunni, þar sem allar gervibreytur byrja í grunni þarf að fjarlægja $M$ úr efstu röð (röð markfallsins) áður en
+Simplex-aðferðin er beitt með hefðbundnum hætti.
+
+\begin{center}
+{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+{\scriptsize
+$\begin{array}{|c|c|ccccc|c|l|} \hline 
+\textrm{grunnbr.} &  Z &  x_1 &  x_2 &   x_3 &  x_4 &  \bar{x}_5 &  HH   & \textrm{min-ratio test}\\ 
+\hline\hline \multicolumn{7}{l}{\textrm{Skref \#1 } >> T } \\ \hline
+z   & 1 &-3 &-5 & 0 & 0 & \color{blue}{M} & 0 & \color{blue}{\textrm{koma á eiginlegt form}}\\
+x_3 & 0 & 1 & 0 & 1 & 0 & 0 & 4 & \\
+x_4 & 0 & 0 & 1 & 0 & 1 & 0 & 12 & \\
+\bar{x}_5 & 0 & 3 & 2 & 0 & 0 & \fbox{1} & 18 & \color{blue}{\leftarrow \textrm{gervibr. úr }z}\\ \hline
+\hline \multicolumn{7}{l}{\textrm{Skref \#2 } >> T=pivot(T,4,6) } \\ \hline
+z   & 1 & \color{red}{-(3M+3)} & -(2M+5) & 0 & 0 & 0 & -18M & \color{red}{-3M << -2M}\\
+x_3 & 0 & \fbox{1} & 0 & 1 & 0 & 0 & 4 & 4/1=4 \leftarrow \min \\ 
+x_4 & 0 & 0 & 1 & 0 & 1 & 0 & 12 & -\\
+\bar{x}_5 & 0 & 3 & 2 & 0 & 0 & 1 & 18 & 18/3=9\\ \hline
+\hline \multicolumn{7}{l}{\textrm{Skref \#3 } >> T=pivot(T,2,2) } \\ \hline
+z   & 1 & 0 & \color{red}{-(2M+5)} & 3M+3 & 0 & 0 & -6M+12 & \color{red}{\textrm{stærsta mínustala}}\\
+x_1 & 0 & 1 & 0 & 1 & 0 & 0 & 4 &\\
+x_4 & 0 & 0 & 1 & 0 & 1 & 0 & 12 & 12/1=12\\
+\bar{x}_5 & 0 & 0 & \fbox{2} & -3 & 0 & 1 & 6 & 6/2=3\leftarrow \min\\ \hline
+\hline \multicolumn{7}{l}{\textrm{Skref \#4 } >> T=pivot(T,4,3) } \\ \hline
+z   & 1 & 0 & 0 &\color{red}{-4.5} & 0 & M+2 & 27 &\color{red}{\textrm{stærsta mínustala}}\\
+x_1 & 0 & 1 & 0 & \fbox{1} & 0 & 0 & 4 & 4/1=4\leftarrow\min \\ 
+x_4 & 0 & 0 & 0 & 1.5 & 1 & 0 & 9 & 9/1.5=6\\ 
+x_2 & 0 & 0 & 1 &-1.5 & 0 & 0 & 3 &\\ \hline
+\hline \multicolumn{7}{l}{\textrm{Skref \#5 } >> T=pivot(T,2,4)}\\ \hline
+z   & 1 & 4 & 0 & 0 & 0 & M+2 & 45 & \color{red}{\textrm{engin mínustala}}\\
+x_1 & 0 & 1 & 0 & 1 & 0 & 0 & 4 & \color{red}{\rightarrow \textrm{ besta lausn}}\\
+x_3 & 0 &-1 & 0 & 0 & 1 & 0 & 3 &\\
+x_2 & 0 & 1 & 1 & 0 & 0 & 0 & 9 &\\ \hline
+\end{array}$}}
+\end{center}
+Hér má lesa úr lokatöflunni:
+$$\vec{x} = (0,~ 9,~ 4,~ 3,~ 0)$$
+eða
+$$x_1^* = 0 \mbox{ og } x_2^* = 9 \mbox{~~~~~(besta lausn) }$$
+
+Í skrefi \#1 erum við koma fylkinu yfir á eiginlegt form, því til að \mbox{geta} notað gervibreytuna $\bar{x}_5$ sem grunnbreytu þá þarf að losna við hana úr markfallinu. Restin af skorðunum haldast óbreyttar.
+
+Í skrefum \#2 og \#3 er lausnin eingöngu gjaldgeng í breytta verkefninu, því $\bar{x}_5$ er enn í grunni, en í skrefum \#4 og \#5 eru lausnirnar gjaldgengar í upphaflega verkefninu.
+\end{lausn}
+
+\begin{aths}\hspace{.1cm}
+\begin{itemize}
+\item Ef allar gervibreytur eru jafnar núlli í bestu lausn þá
+  höfum við fundið bestu lausn upprunalega vandamálsins.
+\item Ef einhverjar gervibreytur eru enn í grunni þegar komið er
+  í bestu lausn þá er það til marks um að upphaflega verkefnið
+  hafi enga gjaldgenga lausn (munið að ``ekki grunnbreytur'' eru $0$
+  og grunnbreytur eru fundnar með því að leysa jöfnunar).
+  Tilgangur gervibreytu er eingöngu að fá fram upphafslausn.
+\end{itemize} 
+\end{aths}
+
+
+Athugum nú hvernig væri hægt að nota innbyggða línulega bestunarfallið í \textsc{Matlab}\footnote{Ólíkt því sem gert er ráð fyrir í H\&L, þá er staðlað form línulegra bestunarverkefna í \textsc{matlab} lágmörkunarvandamál -- í stað hámörkunar.}, nefnilega \texttt{linprog}. Skoðum fyrst hjálpina:
+\begin{lstlisting}
+>> help linprog
+ LINPROG Linear programming.
+    X = LINPROG(f,A,b) attempts to solve the linear programming problem:
+         
+             min f'*x    subject to:   A*x <= b 
+              x
+ 
+    X = LINPROG(f,A,b,Aeq,beq) solves the problem above while additionally
+    satisfying the equality constraints Aeq*x = beq.
+\end{lstlisting}
+
+\begin{lausn}[Dæmi \ref{daemi:wyndor-jofnusk} með \textsc{matlab}]Hægt er að láta \textsc{Matlab} styðjast við Simplex aðferðina í útreikningum sínum á eftirfarandi hátt:
+\begin{lstlisting}
+>> % Segja linprog ad nota simplex (ma sleppa)
+>> options = optimset('linprog');
+>> options.LargeScale = 'off';
+>> options.Simplex = 'on';
+>> % Wyndor verkefnid
+>>  A = [1 0;0 1];b = [4;12];c = [3 5];Aeq = [3 2];beq = 18;
+>> [x,fmax]=linprog(-c',A,b,Aeq,beq,[0 0]',[],[],options)
+Optimization terminated.
+
+x =
+    0.0000
+    9.0000
+
+fmax =
+  -45.0000 
+\end{lstlisting}
+Sem er eins og vænta mátti út frá niðurstöðu Stóru $M$ aðferðarinnar.
+\end{lausn} 
+
+
+\subsection{Stærri-en skorður með neikvæða hægri hlið}
+Ef við höfum $\ge$ skorður  með  $b_i \le 0$, þá margföldum í gegn með $-1$, og fáum jafngilda $\le$ skorður með $b_i\ge0$. 
+
+\begin{daemi}
+$$2x_1+3x_2\ge -5 \quad \Leftrightarrow \quad -2x_1-3x_2\le 5$$ 
+\end{daemi}
+
+\subsection{Stærri-en skorður með jákvæða hægri hlið}
+Ef við höfum $\ge$ skorður með  $b_i > 0$.
+
+Byrjum á að setja inn slakabreytu $x_s$ eða \ath{umframbreytu} (e. surplus variable), til dæmis:
+
+\begin{daemi}
+$$2x_1 + 3x_2\ge 5 $$
+\end{daemi}
+\begin{lausn}Innleiðum umframbreytu á eftirfarandi hátt
+$$\quad \Rightarrow \quad 2x_1 + 3x_2 - x_s =  5 \quad \textrm{og}\quad x_s\ge 0$$
+Það þarf meira til, því ef við byrjum í $x_1=x_2=0$ (eins og venjulega) þá fæst $x_s=-5$, sem er ekki gjaldgengt. Þess vegna
+bætum við nú líka við gervibreytu $\bar{x}$: 
+$$2x_1 + 3x_2 - x_s + \bar{x} =  5$$ 
+og  $x_s,\bar{x}\ge 0$ og bætum loks $-M\bar{x}$ við markfallið ($M$-aðferð). 
+\end{lausn}
+
+\subsection{Neikvæð gildi á ákvarðanabreytum}
+\subsubsection{Neðri mörk}
+Höfum neðri mörk á ákvarðanabreytu $x_j$, þ.e.
+$$ x_j\geq L$$
+þar sem $L$ er einhver neikvæður fasti.
+
+\begin{lausn}
+Skilgreinum $x_j'=x_j-L$, þá er $x_j'\geq0$. Stingum inn $(x_j'+L)$ alls staðar þar sem $x_j$ kemur fyrir, þ.e. í bæði skorðum og markfalli bestunarverkefnisins. 
+\end{lausn}
+
+\subsubsection{Engin neðri mörk}
+Höfum engin neðri mörk á ákvarðanabreytu $x_j$, þ.e. $x_j\to-\infty$.
+\begin{lausn}
+Skilgreinum $x_j = x_j^+ - x_j^-$ með $x_j^+\geq0$ og $x_j^-\geq0$. Stingum inn $(x_j^+-x_j^-)$ alls staðar þar sem $x_j$ kemur fyrir, þ.e. í bæði skorðum og markfalli bestunarverkefnisins.
+\end{lausn}
+
+\begin{daemi}
+$$\max_{x_1,x_2}  z = x_1 + x_2     $$
+m.t.t. sk.
+\begin{eqnarray*}
+x_1 + 2x_2 & \le &  3 \\
+3x_1 + x_2 &\le & 1 \\
+-x_1 + x_2 &\le & 2 \\
+x_2 &\ge& 0   
+\end{eqnarray*}
+ 
+\end{daemi}
+\begin{lausn}Set $x=x^+-x^-$, og þ.a.l.
+$$\max_{x^+,x^-,x_2} z = x^+-x^- + x_2     $$
+m.t.t. sk.
+\begin{eqnarray*}
+x^+-x^- + 2x_2 & \le & 3 \\
+3(x^+-x^-) + x_2 &\le&  1 \\
+-(x^+-x^-) + x_2 &\le & 2 \\
+x^+,x^-,x_2 &\ge& 0   
+\end{eqnarray*}
+ 
+\end{lausn}
+
+
+\section{Tveggja fasa Simplex}
+Stóra-$M$ aðferðin finnur fyrst lausn sem er gjaldgeng í upphaflega verkefninu (allar gervibreytur $=0$) og síðan tekur við leit að bestu lausn. 
+\ath{Tveggja fasa aðferðin} (e. two phase method) gerir það sama -- án þess að innleiða stóra $M$. Í raun öðruvísi lýsing á stóru-$M$ aðferðinni. 
+
+\begin{description}
+  \item[Stóra $M$-aðferð] Lágmarka $z=0.4x_1+0.5x_2+M\bar{x}_4+M\bar{x}_6$
+ \item[Tveggja fasa aðferð]\hspace{.1cm}
+\begin{description}
+ \item[Fasi 1] Lágmarka $z=\bar{x}_4+\bar{x}_6$ þangað til $\bar{x}_4=\bar{x}_6=0$ m.t.t. upprunanlegu skorðanna. Finnum bestu lausn fyrir gerviverkefnið, sem er gjaldgegn lausn fyrir raunverulega verkefnið.
+ \item[Fasi 2] Lágmarka $z=0.4x_1+0.5x_2$ með $\bar{x}_4=\bar{x}_6=0$. Byrjum út frá bestu lausninni fengna úr Fasa 1. Getum sleppt dálkum sem tilheyra gervibreytum (þeir eru hvort eð er 0). Simplex-aðferð beitt til að leysa raunverulega verkefnið.
+\end{description}
+\end{description}
+
+\begin{aths}
+Ef engin gjaldgeng lausn er til á upphaflega verkefninu þá er lokalausn í fasa \#1 (eða stóru-$M$ aðferðinni) með að minnsta kosti eina gervi\-breytu $>0$.
+\end{aths}
+
+\newpage 
+\begin{daemi}[Geislameðferð -- frh. af dæmi \ref{daemi:krabbi:grafisk}]\label{daemi:krabbi}
+
+Höfum ákvarðanabreyturnar
+\begin{itemize}
+ \item[$x_1$] geislamagn fyrir geisla af tegund 1 
+ \item[$x_2$] geislamagn fyrir geisla af tegund 2
+\end{itemize}
+og línulega bestunarlíkan sett fram með eftirfarandi hætti:
+
+\begin{center}{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+\begin{tabular}{|l|rrr|}\hline
+Heildarmagn geislunar & \multicolumn{3}{c|}{$\min_{x_1,x_2} z = 0.4x_1 + 0.5x_2$} \\ \hline
+Heilbrigðir vefir & $0.3x_1$ & $+\; 0.1x_2$ & $ \le  2.7 $ \\
+Krabbameinssvæði & $ 0.5x_1 $&$ +\; 0.5x_2 $&$=  6.0 $ \\
+Miðja æxlis & $0.6x_1$&$ +\; 0.4x_2$& $\ge 6.0$ \\ 
+& \multicolumn{3}{c|}{$x_1,x_2 \ge 0$} \\ \hline
+\end{tabular}} 
+\end{center}
+\end{daemi}
+\begin{lausn}Byrjum á því að setja verkefnið fram á staðlað form, þ.e. jöfnuform og $\max$ verkefni með því að bæta við slaka breytu $x_3$ og umframbreytu $x_5$:
+\begin{center}{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+\begin{tabular}{|l|rrrrr|}\hline
+Heildarmagn geislunar & \multicolumn{5}{c|}{$\max_{x_1,x_2,x_3,x_5}  -z = -0.4x_1 - 0.5x_2$} \\ \hline
+Heilbrigðir vefir & $0.3x_1$ & $+\; 0.1x_2$ & $+\; x_3$ & & $ =  2.7 $ \\
+Krabbameinssvæði & $ 0.5x_1 $&$ +\; 0.5x_2 $&&&$=  6.0 $ \\
+Miðja æxlis & $0.6x_1$&$ +\; 0.4x_2$&&$ -\; x_5$ &$= 6.0$ \\ 
+& \multicolumn{5}{c|}{$x_1,x_2,x_3,x_5 \ge 0$} \\ \hline
+\end{tabular}}
+\end{center}
+Bætum því næst við gervibreytum, þeirra hlutverk er að búa til leyfilega byrjunarlausn:
+\begin{center}{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+\begin{tabular}{|rrrrrrr|}\hline
+\multicolumn{7}{|c|}{$\max_{\vec{x}}  -z = -0.4x_1 - 0.5x_2 -M \bar{x}_4  -M \bar{x}_6$} \\ \hline
+$0.3x_1$ & $+\; 0.1x_2$ & $+\; x_3$ & & & & $ =  2.7 $ \\
+$ 0.5x_1 $&$ +\; 0.5x_2 $&&$+\;\bar{x}_4$&&&$=  6.0 $ \\
+$0.6x_1$&$ +\; 0.4x_2$&&&$ -\; x_5$ &$+\;\bar{x}_6$&$= 6.0$ \\ 
+\multicolumn{7}{|c|}{$x_1,x_2,x_3,\bar{x}_4,x_5,\bar{x}_6 \ge 0$} \\ \hline
+\end{tabular}}
+\end{center}
+\newpage
+Beitum nú tveggja fasa Simplex-aðferðinni.
+\begin{description}
+ \item[Fasi \#1] Hafið til hliðsjónar töflu \ref{daemi:krabbi:fasi1}
+\begin{itemize}
+ \item Fasi \#1 gengur út á að leysa
+$$\min_{\vec{x}} z=\bar{x}_4+\bar{x}_6 \quad \Leftrightarrow \quad \max_{\vec{x}} -z=-\bar{x}_4-\bar{x}_6$$
+ \item Sjáum á töflunni að til þess að $\bar{x}_4$ og $\bar{x}_6$ verði grunnbreytur þarf að losna við þær úr markfalli (fyrstu 2 ítranir), þ.e. koma töflunni yfir á eiginlegt form.
+ \item Því næst tekur við hefðbundin Simplex-bestun\footnote{Hefðbundin Simplex-bestun: stærsti neikvæði stuðull segir til um vendidálk og min-ratio test segir til um vendilínu.}. 
+ \item Fasi \#1 gengur út á að finna löglega upphafslausn á raunverulega verk\-efninu, en hún er $\vec{x}_v=(6,6,0.3,0,0,0)$.
+\end{itemize} 
+\item[Fasi \#2] Hafið til hliðsjónar töflu \ref{daemi:krabbi:fasi2}
+\begin{itemize}
+ \item Fasi \#2 gengur út á að leysa
+$$\max_{\vec{x}} -z=-0.4x_1-0.6x_2\quad\textrm{með}\quad \bar{x}_4=\bar{x}_6=0$$ 
+\item Fasi \#2 hefst á því að breyta lokatöflu fasa \#1 þannig að dálkar gervibreytanna $\bar{x}_4$ og $\bar{x}_6$ er eytt (þurfum ekki lengur á þeim að halda) og upphaflegum kostnaði $\vec{c}$ er bætt við í efstu línuna $(z)$, sem gefur upphafstöfluna fyrir fasa \#2. 
+ \item Komum nú töflunni á eiginlegt form, því $x_1$ og $x_2$ eru grunnbreytur og þ.a.l. þurfa stuðlarnir í efstu línu að vera 0. 
+ %Sjáum að í fyrstu tveimur skrefum fasa \#2 hefur engin bestun enn átt sér stað, heldur eingöngu umritað verkefnið þ.a. grunnbreytur koma ekki lengur fyrir í markfalli. 
+ \item Því næst er Simplex-aðferðin leyst með hefðbundnum hætti. 
+ \item Að lokum lesum við úr lokatöflunni að besta lausn fyrir upprunanlega verkefnið er $\vec{x}^*=(x_1^*,x_2^*)=(7.5,4.5)$ með tilsvarandi markfallsgildi $z^*=5.25$.
+\end{itemize}
+\end{description}
+
+
+\begin{center}
+\begin{table}[t!]
+{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+{\scriptsize
+$$\begin{array}{|c|cccccc|c|l|} \hline 
+ Z &  x_1 &  x_2 &   x_3 & \bar{x}_4 & x_5 &  \bar{x}_6 &  HH   & \textrm{min-ratio test}\\ 
+\hline\hline \multicolumn{8}{l}{>> T1 } \\ \hline
+-1.00 & \color{red}{0.00} & \color{red}{0.00} & 0.00 & \color{blue}{1.00} & 0.00 & \color{blue}{1.00} & 0.00 & \color{blue}{\textrm{koma á eiginlegt form}}\\
+0.00 & 0.30 & 0.10 & 1.00 & 0.00 & 0.00 & 0.00 & 2.70 & \\
+0.00 & 0.50 & 0.50 & 0.00 & \fbox{\color{blue}{1.00}} & 0.00 & 0.00 & 6.00 &\\
+0.00 & 0.60 & 0.40 & 0.00 & 0.00 & -1.00 & \color{blue}{1.00} & 6.00 & \color{red}{\textrm{ath. engir $\vec{c}$ liðir í Fasa 1}}\\
+\hline \multicolumn{8}{l}{>> T1=pivot(T1,3,5) } \\ \hline
+-1.00 & -0.50 & -0.50 & 0.00 & 0.00 & 0.00 & \color{blue}{1.00} & -6.00 & \color{blue}{\textrm{koma á eiginlegt form}}\\
+0.00 & 0.30 & 0.10 & 1.00 & 0.00 & 0.00 & 0.00 & 2.70 & \\
+0.00 & 0.50 & 0.50 & 0.00 & 1.00 & 0.00 & 0.00 & 6.00 & \\
+0.00 & 0.60 & 0.40 & 0.00 & 0.00 & -1.00 & \fbox{\color{blue}{1.00}} & 6.00 & \\
+\hline \multicolumn{8}{l}{>> T1=pivot(T1,4,7) } \\ \hline
+-1.00 & \color{red}{-1.10} & -0.90 & 0.00 & 0.00 & 1.00 & 0.00 & -12.00 & \color{red}{\textrm{stærsta mínustala}}\\
+0.00 & 0.30 & 0.10 & 1.00 & 0.00 & 0.00 & 0.00 & 2.70 & 2.7/0.3=9\leftarrow \min \\
+0.00 & 0.50 & 0.50 & 0.00 & 1.00 & 0.00 & 0.00 & 6.00 & 6/0.5=12\\
+0.00 & 0.60 & 0.40 & 0.00 & 0.00 & -1.00 & 1.00 & 6.00 & 6/0.6=10\\
+\hline \multicolumn{8}{l}{>> T1=pivot(T1,2,2) } \\ \hline
+-1.00 & 0.00 & \color{red}{-0.53} & 3.67 & 0.00 & 1.00 & 0.00 & -2.10 & \color{red}{\textrm{stærsta mínustala}}\\
+0.00 & 1.00 & 0.33 & 3.33 & 0.00 & 0.00 & 0.00 & 9.00 & 9/0.33=27\\
+0.00 & 0.00 & 0.33 & -1.67 & 1.00 & 0.00 & 0.00 & 1.50 & 1.5/0.33=4.5\\
+0.00 & 0.00 & \fbox{0.20} & -2.00 & 0.00 & -1.00 & 1.00 & 0.60 & 0.6/0.20=3\leftarrow \min \\
+\hline \multicolumn{8}{l}{>> T1=pivot(T1,4,3)} \\ \hline
+-1.00 & 0.00 & 0.00 & \color{red}{-1.67} & 0.00 & -1.67 & 2.67 & -0.50 & \color{red}{\textrm{stærsta mínustala}}\\
+0.00 & 1.00 & 0.00 & 6.67 & 0.00 & 1.67 & -1.67 & 8.00 & 8/6.67=1.2 \\
+0.00 & 0.00 & 0.00 & \fbox{1.67} & 1.00 & 1.67 & -1.67 & 0.50 & 0.5/1.67=0.3\leftarrow \min \\
+0.00 & 0.00 & 1.00 & -10.00 & 0.00 & -5.00 & 5.00 & 3.00 & -\\
+\hline \multicolumn{8}{l}{>> T1=pivot(T1,3,4)} \\ \hline
+-1.00 & 0.00 & 0.00 & 0.00 & 1.00 & -0.00 & 1.00 & -0.00 & \color{red}{\textrm{engin mínustala}}\\
+0.00 & 1.00 & 0.00 & 0.00 & -4.00 & -5.00 & 5.00 & 6.00 & \color{red}{\rightarrow \textrm{ besta lausn}}\\
+0.00 & 0.00 & 0.00 & 1.00 & 0.60 & 1.00 & -1.00 & 0.30 & \color{blue}{\textrm{og }\bar{x}_4 \textrm{ og }\bar{x}_6\textrm{ eru}}\\
+0.00 & 0.00 & 1.00 & 0.00 & 6.00 & 5.00 & -5.00 & 6.00 & \color{blue}{\textrm{komin úr grunni.}}\\
+\hline
+\end{array}$$}}
+\caption{Fasi 1 fyrir dæmi \ref{daemi:krabbi}}\label{daemi:krabbi:fasi1}
+\end{table}
+
+\begin{table}[b!]
+{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+{\scriptsize
+$$\begin{array}{|c|cccc|c|l|} \hline 
+ Z &  x_1 &  x_2 &   x_3 & x_5 &  HH   & \textrm{min-ratio test}\\ 
+\hline\hline \multicolumn{6}{l}{>> T2 } \\ \hline
+-1.00 & \color{blue}{0.40} & \color{blue}{0.50} & 0.00 & -0.00 & -0.00 & \color{blue}{\textrm{koma á eiginlegt form}}\\
+0.00 & \fbox{1.00} & 0.00 & 0.00 & -5.00 & 6.00 & \\
+0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 0.30 & \\
+0.00 & 0.00 & 1.00 & 0.00 & 5.00 & 6.00 & \\
+\hline\hline\multicolumn{6}{l}{>> T2=pivot(T2,2,2)} \\ \hline 
+-1.00 & 0.00 & \color{blue}{0.50} & 0.00 & 2.00 & -2.40 & \color{blue}{\textrm{koma á eiginlegt form}}\\
+0.00 & 1.00 & 0.00 & 0.00 & -5.00 & 6.00 & \\
+0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 0.30 & \\
+0.00 & 0.00 & \fbox{1.00} & 0.00 & 5.00 & 6.00 & \\
+\hline\hline\multicolumn{6}{l}{>> T2=pivot(T2,4,3)} \\ \hline
+-1.00 & 0.00 & 0.00 & 0.00 & \color{red}{-0.50} & -5.40 & \color{red}{\textrm{stærsta mínustala}}\\
+0.00 & 1.00 & 0.00 & 0.00 & -5.00 & 6.00 & -\\
+0.00 & 0.00 & 0.00 & 1.00 & \fbox{1.00} & 0.30 & 0.3/1=0.3\leftarrow\min\\
+0.00 & 0.00 & 1.00 & 0.00 & 5.00 & 6.00 & 6/5=1.2\\
+\hline\hline\multicolumn{6}{l}{>> T2=pivot(T2,3,5) } \\ \hline
+-1.00 & 0.00 & 0.00 & 0.50 & 0.00 & -5.25 & \color{red}{\textrm{engin mínustala}}\\
+0.00 & 1.00 & 0.00 & 5.00 & 0.00 & 7.50 & \color{red}{\rightarrow \textrm{ besta lausn}}\\
+0.00 & 0.00 & 0.00 & 1.00 & 1.00 & 0.30 & \\ 
+0.00 & 0.00 & 1.00 & -5.00 & 0.00 & 4.50 & \\ \hline\hline
+\end{array}$$}}\caption{Fasi 2 fyrir dæmi \ref{daemi:krabbi}}\label{daemi:krabbi:fasi2}
+\end{table}
+\end{center}
+
+\end{lausn}
+
+
