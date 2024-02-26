@@ -24,7 +24,10 @@ The book is organized into logical sections, progressing from basic concepts to 
 ## Examples and Code
 To enhance the learning experience and practical understanding, the teaching material incorporates tutorial examples and code snippets written in both Matlab and GLPK. These examples demonstrate the implementation and application of operations research algorithms and methodologies. The provided code can be utilized to solve optimization problems, perform sensitivity analysis, and explore various OR techniques in a programming environment.
 
-The inclusion of code examples aims to bridge the gap between theoretical concepts and their practical implementation, enabling students to gain hands-on experience and develop problem-solving skills.
+The inclusion of code examples aims to bridge the gap between theoretical concepts and their 
+practical implementation, enabling students to gain hands-on experience and develop 
+problem-solving skills. To compile the LaTeX source code, it's recommended to use `latexmk` or a 
+similar tool to ensure proper compilation and generation of the PDF document.
 
 ## Disclaimer
 The material provided in this repository is intended for educational purposes only and should not be considered as a substitute for professional advice or real-world applications.

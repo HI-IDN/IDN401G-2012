@@ -1,0 +1,60 @@
+\begin{daemi}[Framleiðsla flutt hjá Wyndor] Afköst í verksmiðju 2 er aukin á kostnað verksmiðju 3, þ.a. hún lækkar tvöfalt hraðar en afköstin aukast hjá verksmiðju 2, þ.e.
+$$ \max_{\vec{x}} z=3x_1+5x_2$$
+m.t.t. sk.
+\[\begin{array}{lrrcl}
+\mbox{Verksmiðja 1:} & x_1 & &\leq& 4\\
+\mbox{Verksmiðja 2:} & & x_2 &\leq& 12+\theta \\
+\mbox{Verksmiðja 3:} & 3x_1& +2x_2&\leq& 18-2\theta
+\end{array}\]
+Könnum áhrif $\theta$ á bestu lausn.
+\end{daemi}
+\begin{lausn}Breytingar á lokatöflu
+\begin{eqnarray*}
+ z^*&=&\vec{y}^*\overline{\vec{b}}=\begin{bmatrix}0&\frac{3}{2}&1\end{bmatrix}\begin{bmatrix}4\\12+\theta\\18-2\theta\end{bmatrix}=36-\frac{1}{2}\theta\\
+\vec{b}^*&=&\vec{S}^*\overline{\vec{b}}=\begin{bmatrix}1&\frac{1}{3}&-\frac{1}{3}\\0&\frac{1}{2}&0\\0&-\frac{1}{3}&\frac{1}{3}\end{bmatrix}\begin{bmatrix}4\\12+\theta\\18-2\theta\end{bmatrix}=\begin{bmatrix}2+\theta\\6+\frac{1}{2}\theta\\2-\theta\end{bmatrix}
+\end{eqnarray*}
+Sjáum að öll $\theta\geq0$ minnka hagnað, og lausnin er gjaldgeng þegar $2-\theta\geq0$, þ.e. $\theta \leq 2$.
+\end{lausn}
+Á hliðstæðan hátt má kanna áhrif þess að breyta markfallsstuðlum samfellt. Í raun er þessi tegund næmnigreiningar áhugaverð þegar
+\begin{itemize}
+ \item vörur eru í samkeppni innbyrðis,
+ \item ytri þættir, t.d. auglýsingar keppinauta, hafa áhrif á framlegðina.
+\end{itemize}
+\begin{daemi}[Afbrigði af Wyndor]
+$$ \max_{\vec{x}} z(\theta)=(3-\theta)x_1+(5-2\theta)x_2$$
+m.t.t. sk.
+\begin{eqnarray*}
+ x_1 &\leq& 4\\
+x_2 &\leq& 24\\
+3x_1+2x_2&\leq&18\\
+x_1,x_2 &\geq&0
+\end{eqnarray*}
+\end{daemi}
+\begin{lausn}Lokatöflu fyrir þetta Wyndor dæmi (áður en $\theta$ var innleitt) sáum við í dæmi \ref{wyndor:naemni1}
+ \begin{center}
+{\renewcommand{\arraystretch}{1.5} \renewcommand{\tabcolsep}{0.2cm}
+{\scriptsize
+\[\begin{array}{|c|cc|ccc|c|l|} \hline
+  &  x_1 &  x_2 & x_3 & x_4 & x_5 &  HH  &\\ \hline
+ z &  \frac{9}{2} & 0 & 0 & 0 & \frac{5}{2}& 45 &\\
+ x_3 &    1 & 0 & 1 & 0 & 0   & 4 &\\
+ x_4 &   -3 & 0 & 0 & 1 &-1   & 6 &\\
+ x_2 &  \frac{3}{2} & 1 & 0 & 0 & \frac{1}{2} & 9 &\\ \hline
+\multicolumn{7}{l}{\mbox{Eftir að }\theta\mbox{ hefur verið bætt við}} \\ \hline
+ z &  \frac{9}{2}-\theta & \theta & 0 & 0 & \frac{5}{2}& 45 & \mbox{koma á eiginlegt form}\\
+ x_3 &    - & - &- & - & -   & - & \mbox{}\\
+ x_4 &   - & - & -  & - & -   & - & x_3,x_4\mbox{ skipta ekki máli}\\
+ x_2 &  \frac{3}{2} & 1 & 0 & 0 & \frac{1}{2} & 9 &\\ \hline
+ z &  \frac{9}{2}-4\theta & 0 & 0 & 0 & \frac{5}{2}-\theta& 45-18\theta & \\
+ x_2 &  \frac{3}{2} & 1 & 0 & 0 & \frac{1}{2} & 9 &\\ \hline
+\end{array}\]
+}}\end{center}
+Besta lausn ef
+\begin{eqnarray*}
+\frac{9}{2}-4\theta\geq0&\Rightarrow &\theta\leq \frac{9}{8}\\
+\frac{5}{2}-\theta\geq0&\Rightarrow &\theta\leq \frac{5}{2}\\
+\end{eqnarray*}
+Svo $\theta\leq \frac{9}{8}$, þ.e. líkanið er ekki sérlega næmt fyrir gildum á $c_1$ og $c_2$.
+\begin{aths}Ítarlegri umfjöllun í grein 7.3 í H\&L.\end{aths}
+
+\end{lausn}
